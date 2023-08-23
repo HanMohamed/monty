@@ -21,7 +21,6 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-extern stack_t **stack_monty;
 extern stack_t *top;
 extern int value;
 
@@ -39,6 +38,7 @@ typedef struct instruction_s
 	void (*func)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+int instruction_handler(char *buffer, int line);
 void push();
 void pall();
 void pop();

@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
 	FILE *monty_file;
 	char *buffer, *error, **token = NULL;
 	int line_number = 0, i = 0, op_handler;
-	stack_monty = NULL;
 	top = NULL;
 	if (argc != 2)
 	{
@@ -77,7 +76,7 @@ int instruction_handler(char *buffer, int line)
 		if (strcmp(check_instruction[i].opcode, buffer) == 0)
 		{
 			fail = 1;
-			check_instruction[i].func(stack_monty, line);
+			check_instruction[i].func(&top, line);
 			break;
 		}
 	}
