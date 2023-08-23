@@ -1,9 +1,7 @@
 #include "monty.h"
 int value = 0;
-stack_t *top = NULL;
 
-/**
- *main - monty interpeter
+/**main - monty interpeter
  *
  * @argc: number of arguments
  *@argv: command line arguments
@@ -13,6 +11,8 @@ int main(int argc, char *argv[]) {
 	FILE *monty_file;
 	char *buffer = NULL, *error, **token = NULL;
 	int line_number = 0, i = 0, op_handler = 0;
+	stack_t *stack = NULL;
+
 	if (argc != 2)
 	{
 		error = "USAGE: monty file\n";
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 		token[++i] = strtok(NULL, " /n/t");
-		op_handler = instruction_handler(token[0],token[1],  line_number);
+		op_handler = instruction_handler(token[0], token[1], line_number, &stack);
 
 		if (!op_handler) {
 			printf("L%d: unknown instruction %s\n", line_number, token[0]);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	fclose(monty_file);
-	free_stack(top);
+	free_stack(stack);
 	free(token);
 	return 0;
 }
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
  *
  * Return: 1 if succeeded or 0 if not;
  */
-int instruction_handler(char *buffer, char *argument, int line)
+int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
 {
 	int size = 5;
 	int i, fail;
@@ -96,7 +96,7 @@ int instruction_handler(char *buffer, char *argument, int line)
 				}
 			}
 			fail = 1;
-			check[i].func(&top, line);
+			check[i].func(stack, line);
 			break;
 		}
 	}
