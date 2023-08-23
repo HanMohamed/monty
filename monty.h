@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -22,6 +23,7 @@ typedef struct stack_s
 
 extern stack_t **stack_monty;
 extern stack_t *top;
+extern int value;
 
 /**
  * struct instruction_s - opcode and its function
