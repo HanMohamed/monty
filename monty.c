@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
 		if (!op_handler)
 		{
-			printf("L%d: unknown instruction %s\n", line_number, token[0]);
+			dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line_number, token[0]);
 			free(token);
 			fclose(monty_file);
 			exit(EXIT_FAILURE);
