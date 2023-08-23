@@ -1,4 +1,7 @@
 #include "monty.h"
+int value = 0;
+stack_t *top = NULL;
+
 /**
  *main - monty interpeter
  *
@@ -8,9 +11,8 @@
  */
 int main(int argc, char *argv[]) {
 	FILE *monty_file;
-	char *buffer, *error, **token = NULL;
-	int line_number = 0, i = 0, op_handler;
-	top = NULL;
+	char *buffer = NULL, *error, **token = NULL;
+	int line_number = 0, i = 0, op_handler = 0;
 	if (argc != 2)
 	{
 		error = "USAGE: monty file\n";
@@ -35,17 +37,24 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 		token[++i] = strtok(NULL, " /n/t");
-		op_handler = instruction_handler(token[0], line_number);
+		op_handler = instruction_handler(token[0],token[1],  line_number);
 
-		if (!op_handler)
+		if (!op_handler) {
+			printf("L%d: unknown instruction %s\n", line_number, token[0]);
+			free(token);
+			fclose(monty_file);
+			exit(EXIT_FAILURE);
+		}
+		else if (op_handler == 2)
 		{
-			dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line_number, token[0]);
+			printf("L%d: usage: push integer\n", line_number);
 			free(token);
 			fclose(monty_file);
 			exit(EXIT_FAILURE);
 		}
 	}
 	fclose(monty_file);
+	free_stack(top);
 	free(token);
 	return 0;
 }
@@ -56,27 +65,38 @@ int main(int argc, char *argv[]) {
  *
  * Return: 1 if succeeded or 0 if not;
  */
-int instruction_handler(char *buffer, int line)
+int instruction_handler(char *buffer, char *argument, int line)
 {
-	int instruction_size = 6;
+	int size = 5;
 	int i, fail;
 
-	fail = 0;
-	instruction_t check_instruction[] = {
+	instruction_t check [] = { 
 			{"push", push},
 			{"pall", pall},
 			{"pop", pop},
 			{"pint", pint},
-			{"swap", swap},
-			{"add", add}
+			{"NULL", NULL}
 	};
-
-	for (i = 0; i < instruction_size; i++)
+	
+	fail = 0;
+	for (i = 0; i < size; i++)
 	{
-		if (strcmp(check_instruction[i].opcode, buffer) == 0)
+		if (strcmp(check[i].opcode, buffer) == 0)
 		{
+			if (strcmp(check[i].opcode, "push") == 0)
+			{
+				if (isdigit(argument))
+				{
+					value = atoi(argument);
+				}
+				else 
+				{
+					fail = 2;
+					return (fail);
+				}
+			}
 			fail = 1;
-			check_instruction[i].func(&top, line);
+			check[i].func(&top, line);
 			break;
 		}
 	}
