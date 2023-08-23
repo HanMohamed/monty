@@ -12,7 +12,6 @@ int main(int argc, char *argv[]) {
 	char *buffer = NULL, *error, **token = NULL;
 	int line_number = 0, i = 0, op_handler = 0;
 	stack_t *stack = NULL;
-	size_t n = 0;
 
 	if (argc != 2)
 	{
@@ -28,7 +27,7 @@ int main(int argc, char *argv[]) {
 		write(STDERR_FILENO,error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
-	while(getline(&buffer, &n, monty_file))
+	while(fgets(buffer, sizeof(buffer), monty_file))
 	{
 		line_number++;
 		token[i] = strtok(buffer, " /n/t");
@@ -56,7 +55,6 @@ int main(int argc, char *argv[]) {
 	}
 	fclose(monty_file);
 	free_stack(stack);
-	free(buffer);
 	return 0;
 }
 /**
