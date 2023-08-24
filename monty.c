@@ -8,10 +8,11 @@ int value = 0;
  *Return: 0 on success
  */
 int main(int argc, char *argv[]) {
-	FILE *monty_file;
-	char *buffer = NULL, *error, **token = NULL;
-	int line_number = 0, i = 0, op_handler = 0;
+	FILE *monty;
+	char *buffer = NULL, *error, **token = malloc(2 * sizeof(char **));
+	int line_number = 0, op_handler = 0;
 	stack_t *stack = NULL;
+	size_t n = 0;
 
 	if (argc != 2)
 	{
@@ -19,41 +20,43 @@ int main(int argc, char *argv[]) {
 		write(STDERR_FILENO,error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
-	monty_file = fopen(argv[1], "r");
-	if (!monty_file)
+	monty = fopen(argv[1], "r");	
+	if (monty == NULL)
 	{
 		error = strcat("Error: Can't open file ", argv[1]);
 		error = strcat(error, "\n");
 		write(STDERR_FILENO,error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
-	while(fgets(buffer, sizeof(buffer), monty_file))
+	while(getline(&buffer, &n, monty) != -1)
 	{
 		line_number++;
-		token[i] = strtok(buffer, " /n/t");
-		if (!token[i])
+		token[0] = strtok(buffer, " \n\t");
+		if (!token[0])
 		{
 			free(token);
 			continue;
 		}
-		token[++i] = strtok(NULL, " /n/t");
+		token[1] = strtok(NULL, " \n\t");
 		op_handler = instruction_handler(token[0], token[1], line_number, &stack);
 
 		if (!op_handler) {
 			printf("L%d: unknown instruction %s\n", line_number, token[0]);
 			free(token);
-			fclose(monty_file);
+			fclose(monty);
 			exit(EXIT_FAILURE);
 		}
 		else if (op_handler == 2)
 		{
 			printf("L%d: usage: push integer\n", line_number);
 			free(token);
-			fclose(monty_file);
+			fclose(monty);
 			exit(EXIT_FAILURE);
 		}
 	}
-	fclose(monty_file);
+	fclose(monty);
+	free(token);
+	free(buffer);
 	free_stack(stack);
 	return 0;
 }
