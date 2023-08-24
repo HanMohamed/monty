@@ -43,6 +43,7 @@ typedef struct instruction_s
 	void (*func)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+int _isdigit(char *c);
 int instruction_handler(char *buffer, char *argument, int line, stack_t **stack);
 void free_stack(stack_t *stack);
 void push(stack_t **stack, unsigned int line_number);
