@@ -53,4 +53,5 @@ void pop(my_stack_t **stack, unsigned int line_number);
 void pint(my_stack_t **stack, unsigned int line_number);
 void add(my_stack_t **stack, unsigned int line_number);
 void nop(my_stack_t **stack, unsigned int line_number);
+void swap(my_stack_t **stack, unsigned int line_number);
 #endif
