@@ -39,3 +39,16 @@ void add(my_stack_t **stack, unsigned int line_number)
 		free(current);
 	}
 }
+
+/**
+ * nop - doesn’t do anything.
+ *
+ * @stack: a linked list
+ * @line_number: line number
+ */
+void nop(my_stack_t **stack, unsigned int line_number)
+{
+	(void) line_number;
+	(void) stack;
+	return;
+}
