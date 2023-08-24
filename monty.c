@@ -1,5 +1,4 @@
 #include "monty.h"
-int value = 0;
 
 /**main - monty interpeter
  *
@@ -69,8 +68,8 @@ int main(int argc, char *argv[]) {
  */
 int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
 {
-	int size = 4;
-	int i, fail;
+	int i;
+	
 
 	instruction_t check [] = { 
 			{"push", push},
@@ -79,27 +78,17 @@ int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
 			{"pint", pint},
 	};
 	
-	fail = 0;
-	for (i = 0; i < size; i++)
+	for (i = 0; i < 4; i++)
 	{
 		if (strcmp(check[i].opcode, buffer) == 0)
 		{
 			if (strcmp(check[i].opcode, "push") == 0)
 			{
-				if (isdigit(argument))
-				{
 					value = atoi(argument);
-				}
-				else 
-				{
-					fail = 2;
-					return (fail);
-				}
 			}
-			fail = 1;
 			check[i].func(stack, line);
-			break;
+			return (1);
 		}
 	}
-	return (fail);
+	return (0);
 }

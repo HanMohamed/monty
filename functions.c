@@ -1,4 +1,5 @@
 #include "monty.h"
+int value;
 /**
  *push - function to add a node to the stack
  *
