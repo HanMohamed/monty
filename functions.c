@@ -1,6 +1,7 @@
 #include "monty.h"
 
 int value;
+
 /**
  * push - function to add a node to the stack
  *
@@ -32,12 +33,12 @@ void push(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 		*stack = new;
 	}
 }
+
 /**
- *pall - funciton to print alinked list content
+ * pall - function to print a linked list content
  *
- *@stack: linked list
- *@line_number: number of lines
- *
+ * @stack: linked list
+ * @line_number: number of lines
  */
 void pall(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
@@ -52,11 +53,12 @@ void pall(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 		current = current->next;
 	}
 }
+
 /**
- *pint - function to print the top of alinked list
+ * pint - function to print the top of a linked list
  *
- *@stack: linked list
- *@line_number: number of lines
+ * @stack: linked list
+ * @line_number: number of lines
  *
  */
 void pint(my_stack_t **stack, unsigned int line_number)
@@ -71,11 +73,12 @@ void pint(my_stack_t **stack, unsigned int line_number)
 		printf("%d\n", (*stack)->n);
 	}
 }
+
 /**
- *pop - function that removes the top element of stack
+ * pop - function that removes the top element of stack
  *
- *@stack: linked list
- *@line_number: number of lines
+ * @stack: linked list
+ * @line_number: number of lines
  *
  */
 void pop(my_stack_t **stack, unsigned int line_number)
@@ -91,6 +94,7 @@ void pop(my_stack_t **stack, unsigned int line_number)
 	(*stack)->prev = NULL;
 	free(current);
 }
+
 /**
  * free_stack - frees a dlistint_t list
  *
@@ -108,4 +112,3 @@ void free_stack(my_stack_t *stack)
 		free(current);
 	}
 }
-
