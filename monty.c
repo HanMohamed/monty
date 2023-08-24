@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
  */
 int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
 {
-	int size = 5;
+	int size = 4;
 	int i, fail;
 
 	instruction_t check [] = { 
@@ -77,7 +77,6 @@ int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
 			{"pall", pall},
 			{"pop", pop},
 			{"pint", pint},
-			{"NULL", NULL}
 	};
 	
 	fail = 0;
