@@ -1,7 +1,7 @@
 #include "monty.h"
 
 /**
- * main - monty interpeter
+ * main - monty interpreter
  *
  * @argc: number of arguments
  * @argv: command line arguments
@@ -42,19 +42,15 @@ int main(int argc, char *argv[])
 		op_handler = instruction_handler(token[0], token[1], line_number, &stack);
 
 		if (!op_handler)
-		{
 			printf("L%d: unknown instruction %s\n", line_number, token[0]);
-			free(token);
-			fclose(monty);
-			exit(EXIT_FAILURE);
-		}
 		else if (op_handler == 2)
-		{
 			printf("L%d: usage: push integer\n", line_number);
-			free(token);
-			fclose(monty);
-			exit(EXIT_FAILURE);
-		}
+		else
+			continue;
+
+		free(token);
+		fclose(monty);
+		exit(EXIT_FAILURE);
 	}
 	fclose(monty);
 	free(token);
@@ -82,9 +78,10 @@ int instruction_handler(char *buffer, char *argument,
 			{"pall", pall},
 			{"pop", pop},
 			{"pint", pint},
+			{"add", add}
 	};
 
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 5; i++)
 	{
 		if (strcmp(check[i].opcode, buffer) == 0)
 		{
