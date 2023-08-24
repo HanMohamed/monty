@@ -25,14 +25,14 @@ typedef struct stack_s
 	int n;
 	struct stack_s *prev;
 	struct stack_s *next;
-} stack_t;
+} my_stack_t;
 
 extern int value;
 
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
- * @f: function to handle the opcode
+ * @func: function to handle the opcode
  *
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
@@ -40,14 +40,15 @@ extern int value;
 typedef struct instruction_s
 {
 	char *opcode;
-	void (*func)(stack_t **stack, unsigned int line_number);
+	void (*func)(my_stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 int _isdigit(char *c);
-int instruction_handler(char *buffer, char *argument, int line, stack_t **stack);
-void free_stack(stack_t *stack);
-void push(stack_t **stack, unsigned int line_number);
-void pall(stack_t **stack, unsigned int line_number);
-void pop(stack_t **stack, unsigned int line_number);
-void pint(stack_t **stack, unsigned int line_number);
+int instruction_handler(char *buffer, char *argument,
+						int line, my_stack_t **stack);
+void free_stack(my_stack_t *stack);
+void push(my_stack_t **stack, unsigned int line_number);
+void pall(my_stack_t **stack, unsigned int line_number);
+void pop(my_stack_t **stack, unsigned int line_number);
+void pint(my_stack_t **stack, unsigned int line_number);
 #endif
