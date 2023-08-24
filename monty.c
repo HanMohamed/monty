@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	{
 		error = "USAGE: monty file\n";
 		write(STDERR_FILENO, error, strlen(error));
+		free(token);
 		exit(EXIT_FAILURE);
 	}
 	monty = fopen(argv[1], "r");
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
 		error = strcat("Error: Can't open file ", argv[1]);
 		error = strcat(error, "\n");
 		write(STDERR_FILENO, error, strlen(error));
+		free(token);
 		exit(EXIT_FAILURE);
 	}
 	while (getline(&buffer, &n, monty) != -1)
