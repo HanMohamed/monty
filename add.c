@@ -6,7 +6,7 @@
  * @line_number: line number
  *
  */
-void add(my_stack_t **stack,unsigned int line_number)
+void add(my_stack_t **stack, unsigned int line_number)
 {
 	int i = 0, sum;
 	my_stack_t *current = *stack;
@@ -19,6 +19,7 @@ void add(my_stack_t **stack,unsigned int line_number)
 		current = current->next;
 	}
 
+	current = *stack;
 	if (!current || i < 2)
 	{
 		sprintf(line, "%d", line_number);
@@ -29,12 +30,12 @@ void add(my_stack_t **stack,unsigned int line_number)
 	}
 	else
 	{
-		current = *stack;
 		sum = current->n;
 		sum += current->next->n;
 		current->next->n = sum;
 		*stack = (*stack)->next;
-		(*stack)->prev = NULL;
+		if (*stack)
+			(*stack)->prev = NULL;
 		free(current);
 	}
 }
