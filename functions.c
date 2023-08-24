@@ -1,15 +1,15 @@
 #include "monty.h"
+
 int value;
 /**
- *push - function to add a node to the stack
+ * push - function to add a node to the stack
  *
- *@stack: linked list
- *@line_number: number of lines
- *
+ * @stack: linked list
+ * @line_number: number of lines
  */
-void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
+void push(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
-	stack_t *new = malloc(sizeof(stack_t));
+	my_stack_t *new = malloc(sizeof(my_stack_t));
 
 	if (new == NULL)
 	{
@@ -23,7 +23,7 @@ void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 		new->prev = NULL;
 		*stack = new;
 	}
-	else 
+	else
 	{
 		new->n = value;
 		new->next = *stack;
@@ -39,9 +39,9 @@ void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
  *@line_number: number of lines
  *
  */
-void pall(stack_t **stack, unsigned int line_number __attribute__((unused)))
+void pall(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
-	stack_t *current = *stack;
+	my_stack_t *current = *stack;
 
 	if (current == NULL)
 		return;
@@ -59,7 +59,7 @@ void pall(stack_t **stack, unsigned int line_number __attribute__((unused)))
  *@line_number: number of lines
  *
  */
-void pint(stack_t **stack, unsigned int line_number)
+void pint(my_stack_t **stack, unsigned int line_number)
 {
 	if (*stack == NULL)
 	{
@@ -78,9 +78,9 @@ void pint(stack_t **stack, unsigned int line_number)
  *@line_number: number of lines
  *
  */
-void pop(stack_t **stack, unsigned int line_number)
+void pop(my_stack_t **stack, unsigned int line_number)
 {
-	stack_t *current = *stack;
+	my_stack_t *current = *stack;
 
 	if (current == NULL)
 	{
@@ -97,9 +97,9 @@ void pop(stack_t **stack, unsigned int line_number)
  * @stack: head of the list
  * Return: no return
  */
-void free_stack(stack_t *stack)
+void free_stack(my_stack_t *stack)
 {
-	stack_t *current;
+	my_stack_t *current;
 
 	while (stack != NULL)
 	{
