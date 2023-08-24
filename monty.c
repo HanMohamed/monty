@@ -1,33 +1,35 @@
 #include "monty.h"
 
-/**main - monty interpeter
+/**
+ * main - monty interpeter
  *
  * @argc: number of arguments
- *@argv: command line arguments
- *Return: 0 on success
+ * @argv: command line arguments
+ * Return: 0 on success
  */
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	FILE *monty;
 	char *buffer = NULL, *error, **token = malloc(2 * sizeof(char **));
 	int line_number = 0, op_handler = 0;
-	stack_t *stack = NULL;
+	my_stack_t *stack = NULL;
 	size_t n = 0;
 
 	if (argc != 2)
 	{
 		error = "USAGE: monty file\n";
-		write(STDERR_FILENO,error, strlen(error));
+		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
-	monty = fopen(argv[1], "r");	
+	monty = fopen(argv[1], "r");
 	if (monty == NULL)
 	{
 		error = strcat("Error: Can't open file ", argv[1]);
 		error = strcat(error, "\n");
-		write(STDERR_FILENO,error, strlen(error));
+		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
-	while(getline(&buffer, &n, monty) != -1)
+	while (getline(&buffer, &n, monty) != -1)
 	{
 		line_number++;
 		token[0] = strtok(buffer, " \n\t");
@@ -39,7 +41,8 @@ int main(int argc, char *argv[]) {
 		token[1] = strtok(NULL, " \n\t");
 		op_handler = instruction_handler(token[0], token[1], line_number, &stack);
 
-		if (!op_handler) {
+		if (!op_handler)
+		{
 			printf("L%d: unknown instruction %s\n", line_number, token[0]);
 			free(token);
 			fclose(monty);
@@ -57,27 +60,30 @@ int main(int argc, char *argv[]) {
 	free(token);
 	free(buffer);
 	free_stack(stack);
-	return 0;
+	return (0);
 }
+
 /**
- * instruction_handler -
- * @buffer
- * @line
+ * instruction_handler - handel instructions
+ * @buffer: buffer
+ * @argument: argument
+ * @line: line
+ * @stack: stack
  *
  * Return: 1 if succeeded or 0 if not;
  */
-int instruction_handler(char *buffer, char *argument, int line, stack_t **stack)
+int instruction_handler(char *buffer, char *argument,
+						int line, my_stack_t **stack)
 {
 	int i;
-	
 
-	instruction_t check [] = { 
+	instruction_t check[] = {
 			{"push", push},
 			{"pall", pall},
 			{"pop", pop},
 			{"pint", pint},
 	};
-	
+
 	for (i = 0; i < 4; i++)
 	{
 		if (strcmp(check[i].opcode, buffer) == 0)
@@ -112,9 +118,7 @@ int _isdigit(char *c)
 	for (; *aux != '\0'; aux++)
 	{
 		if ((*aux < '0' || *aux > '9'))
-		{
 			return (0);
-		}
 	}
 	return (1);
 }
