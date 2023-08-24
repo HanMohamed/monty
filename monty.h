@@ -51,4 +51,6 @@ void push(my_stack_t **stack, unsigned int line_number);
 void pall(my_stack_t **stack, unsigned int line_number);
 void pop(my_stack_t **stack, unsigned int line_number);
 void pint(my_stack_t **stack, unsigned int line_number);
+void add(my_stack_t **stack, unsigned int line_number);
+void nop(my_stack_t **stack, unsigned int line_number);
 #endif
