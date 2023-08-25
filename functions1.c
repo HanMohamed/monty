@@ -10,11 +10,14 @@ int value;
  */
 void push(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
-	my_stack_t *new = malloc(sizeof(my_stack_t));
+	my_stack_t *new;
+	char *error;
 
+	new = malloc(sizeof(my_stack_t));
 	if (new == NULL)
 	{
-		printf("Error: malloc failed\n");
+		error = "Error: malloc failed\n";
+		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
 	if (*stack == NULL)
@@ -63,15 +66,16 @@ void pall(my_stack_t **stack, unsigned int line_number __attribute__((unused)))
  */
 void pint(my_stack_t **stack, unsigned int line_number)
 {
+	char error[1024];
+
 	if (*stack == NULL)
 	{
-		printf("L%d: can't pint, stack empty\n", line_number);
+		sprintf(error, "L%d: can't pint, stack empty\n", line_number);
+		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
 	else
-	{
 		printf("%d\n", (*stack)->n);
-	}
 }
 
 /**
@@ -84,10 +88,12 @@ void pint(my_stack_t **stack, unsigned int line_number)
 void pop(my_stack_t **stack, unsigned int line_number)
 {
 	my_stack_t *current = *stack;
+	char error[1024];
 
 	if (current == NULL)
 	{
-		printf("L%d: can't pop an empty stack", line_number);
+		sprintf(error, "L%d: can't pop an empty stack\n", line_number);
+		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
 	*stack = (*stack)->next;

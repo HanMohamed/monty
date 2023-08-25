@@ -10,14 +10,15 @@
 int main(int argc, char *argv[])
 {
 	FILE *monty;
-	char *buffer = NULL, *error, **token = malloc(2 * sizeof(char **));
-	int line_number = 0, op_handler = 0;
+	char *buffer = NULL, **token = malloc(2 * sizeof(char **));
+	int line_number = 0, op_handler;
 	my_stack_t *stack = NULL;
+	char error[1024];
 	size_t n = 0;
 
 	if (argc != 2)
 	{
-		error = "USAGE: monty file\n";
+		sprintf(error, "USAGE: monty file\n");
 		write(STDERR_FILENO, error, strlen(error));
 		free(token);
 		exit(EXIT_FAILURE);
@@ -25,8 +26,7 @@ int main(int argc, char *argv[])
 	monty = fopen(argv[1], "r");
 	if (monty == NULL)
 	{
-		error = strcat("Error: Can't open file ", argv[1]);
-		error = strcat(error, "\n");
+		sprintf(error, "Error: Can't open file %s\n", argv[1]);
 		write(STDERR_FILENO, error, strlen(error));
 		free(token);
 		exit(EXIT_FAILURE);
@@ -41,12 +41,19 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		token[1] = strtok(NULL, " \n\t");
-		op_handler = instruction_handler(token[0], token[1], line_number, &stack);
+		op_handler = instruction_handler(token[0], token[1],
+										 line_number, &stack);
 
 		if (!op_handler)
-			printf("L%d: unknown instruction %s\n", line_number, token[0]);
+		{
+			sprintf(error, "L%d: unknown instruction %s\n", line_number, token[0]);
+			write(STDERR_FILENO, error, strlen(error));
+		}
 		else if (op_handler == 2)
-			printf("L%d: usage: push integer\n", line_number);
+		{
+			sprintf(error, "L%d: usage: push integer\n", line_number);
+			write(STDERR_FILENO, error, strlen(error));
+		}
 		else
 			continue;
 

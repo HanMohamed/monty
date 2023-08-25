@@ -1,5 +1,5 @@
 #include "monty.h"
-#include "string.h"
+
 /**
  * add - adds the top two elements of the stack.
  * @stack: a linked list
@@ -10,8 +10,7 @@ void add(my_stack_t **stack, unsigned int line_number)
 {
 	int i = 0, sum;
 	my_stack_t *current = *stack;
-	char *error;
-	char *line = "";
+	char error[1024];
 
 	while (current != NULL)
 	{
@@ -22,9 +21,7 @@ void add(my_stack_t **stack, unsigned int line_number)
 	current = *stack;
 	if (!current || i < 2)
 	{
-		sprintf(line, "%d", line_number);
-		error = strcat("L", line);
-		error = strcat(error, ": can't add, stack too short\n");
+		sprintf(error, "L%d: can't add, stack too short\n", line_number);
 		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
@@ -41,7 +38,7 @@ void add(my_stack_t **stack, unsigned int line_number)
 }
 
 /**
- * nop - doesn’t do anything.
+ * nop - does not do anything.
  *
  * @stack: a linked list
  * @line_number: line number
@@ -62,8 +59,7 @@ void swap(my_stack_t **stack, unsigned int line_number)
 {
 	int i = 0, temp;
 	my_stack_t *current = *stack;
-	char *error;
-	char *line = "";
+	char error[1024];
 
 	while (current != NULL)
 	{
@@ -74,9 +70,7 @@ void swap(my_stack_t **stack, unsigned int line_number)
 	current = *stack;
 	if (!current || i < 2)
 	{
-		sprintf(line, "%d", line_number);
-		error = strcat("L", line);
-		error = strcat(error, ": can't swap, stack too short\n");
+		sprintf(error, "L%d: can't swap, stack too short\n", line_number);
 		write(STDERR_FILENO, error, strlen(error));
 		exit(EXIT_FAILURE);
 	}
